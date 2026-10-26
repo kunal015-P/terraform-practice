@@ -2,12 +2,19 @@ provider "aws" {
   region = var.region
 }
 
+resource "aws_key_pair" "my-key" {
+  key_name   = "my-key"
+  public_key = file("terra-key.pub")
+}
+
 resource "aws_instance" "vm-1" {
   ami                         = "ami-052b3645c2c811821"
   instance_type               = "t3.small"
   subnet_id                   = aws_subnet.my-subnet.id
-  key_name                    = var.key_pair
+  vpc_security_group_ids      = [aws_security_group.my-sg.id]
+  key_name                    = aws_key_pair.my-key.key_name
   associate_public_ip_address = true
+  user_data                   = file("install_nginx.sh")
   tags = {
     Name = "vm-1"
   }

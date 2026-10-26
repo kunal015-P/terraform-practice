@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install nginx -y
+sudo systemctl enable nginx --now
+
+echo "<h1>Welcome to Nginx on EC2</h1>" | sudo tee /usr/share/nginx/html/index.html
