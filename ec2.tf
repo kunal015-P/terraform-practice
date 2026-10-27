@@ -10,6 +10,7 @@ resource "aws_key_pair" "my-key" {
 resource "aws_instance" "vm-1" {
   ami                         = "ami-052b3645c2c811821"
   instance_type               = "t3.small"
+  count                       = 2
   subnet_id                   = aws_subnet.my-subnet.id
   vpc_security_group_ids      = [aws_security_group.my-sg.id]
   key_name                    = aws_key_pair.my-key.key_name
